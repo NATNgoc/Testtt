@@ -1,0 +1,48 @@
+name: .NET Framework Desktop
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  Test:
+    strategy:
+      matrix:
+        configuration: [windows-latest]
+
+    runs-on: windows-latest
+
+    env:
+      Solution_Name: QuanLyQuanCafe.sln
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
+
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.3.1
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.2.0
+
+      - name: Restore Packages
+        run: nuget restore QuanLyQuanCafe.sln
+
+      - name: Install Moq
+        run: nuget install Moq
+
+      - name: Execute unit tests
+        run: dotnet test
+
+      - name: Create new tool manifest
+        run: dotnet new tool-manifest
+
+      - name: Install dotnet stryker
+        run: dotnet tool install dotnet-stryker
+
+      - name: Execute mutation tests
+        run: dotnet stryker
