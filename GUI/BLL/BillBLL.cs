@@ -44,7 +44,6 @@ namespace BLL
         }
         public bool capNhatDiscount(int maBill, decimal discount)
         {
-            //
             return _billDAL.capNhatDiscount(maBill,discount);
         }
         public int getDiscount(int maBill)
