@@ -14,6 +14,7 @@ namespace BLL
 {
     public  class Category_FoodBLL
     {
+        //ádasdasd
         private readonly ICategoryDAL _categoryDAL;
 
 
